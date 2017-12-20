@@ -1,0 +1,14 @@
+{
+  "name": "coordclient",
+  "version": "1.0.0",
+  "description": "config cache using coord",
+  "main": "coordclient.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "consul": "^0.30.0"
+  }
+}
