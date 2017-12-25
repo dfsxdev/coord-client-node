@@ -67,7 +67,7 @@ class ConsulClient {
 
         watch.on('error', function (err) {
             self.log('watch Service error:', err);
-            if(self.cacheServiceWatch[serviceName]){
+            if(self.cacheServiceWatch[serviceName]) {
                 delete self.cacheServiceWatch[serviceName];
             }
         });
@@ -132,7 +132,7 @@ class ConsulClient {
 
         watch.on('error', function (err) {
             self.log('watch Key error:', err);
-            if(self.cacheKeyWatch[path]){
+            if(self.cacheKeyWatch[path]) {
                 delete self.cacheKeyWatch[path];
             }
         });
@@ -196,7 +196,7 @@ class ConsulClient {
             self.log('watch KeyValue data:', result);
 
             let ret = null;
-            if(result && result.Value){
+            if(result && result.Value) {
                 ret = result.Value;
             }
 
@@ -205,7 +205,7 @@ class ConsulClient {
 
         watch.on('error', function (err) {
             self.log('watch KeyValue error:', err);
-            if(self.cacheKeyValueWatch[key]){
+            if(self.cacheKeyValueWatch[key]) {
                 delete self.cacheKeyValueWatch[key];
             }
         });
@@ -229,7 +229,7 @@ class ConsulClient {
                 }
 
                 let ret = null;
-                if(result && result.Value){
+                if(result && result.Value) {
                     ret = result.Value;
                 }
 
