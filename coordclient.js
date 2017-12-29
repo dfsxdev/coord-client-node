@@ -76,12 +76,14 @@ class ConsulClient {
     getService(serviceName, isWatch) {
         let self = this;
         return new Promise(function (resolve, reject) {
-            if (self.isServiceWatched(serviceName)) {
-                let data = this.cacheServiceWatch[serviceName];
-                reject(data);
-                return;
-            } else {
-                self.addServiceWatch(serviceName);
+            if (isWatch === true) {
+                if (self.isServiceWatched(serviceName)) {
+                    let data = this.cacheServiceWatch[serviceName];
+                    reject(data);
+                    return;
+                } else {
+                    self.addServiceWatch(serviceName);
+                }
             }
 
             self.consul.catalog.service.nodes(serviceName, function (err, result) {
