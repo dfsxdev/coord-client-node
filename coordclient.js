@@ -67,13 +67,13 @@ class ConsulClient {
 
         watch.on('error', function (err) {
             self.log('watch Service error:', err);
-            if(self.cacheServiceWatch[serviceName]) {
+            if (self.cacheServiceWatch[serviceName]) {
                 delete self.cacheServiceWatch[serviceName];
             }
         });
     }
 
-    getService(serviceName) {
+    getService(serviceName, isWatch) {
         let self = this;
         return new Promise(function (resolve, reject) {
             if (self.isServiceWatched(serviceName)) {
@@ -132,21 +132,23 @@ class ConsulClient {
 
         watch.on('error', function (err) {
             self.log('watch Key error:', err);
-            if(self.cacheKeyWatch[path]) {
+            if (self.cacheKeyWatch[path]) {
                 delete self.cacheKeyWatch[path];
             }
         });
     }
 
-    getKeys(path) {
+    getKeys(path, isWatch) {
         let self = this;
         return new Promise(function (resolve, reject) {
-            if (self.isKeyWatched(path)) {
-                let data = this.cacheKeyWatch[path];
-                reject(data);
-                return;
-            } else {
-                self.addKeyWatch(path);
+            if (isWatch === true) {
+                if (self.isKeyWatched(path)) {
+                    let data = this.cacheKeyWatch[path];
+                    reject(data);
+                    return;
+                } else {
+                    self.addKeyWatch(path);
+                }
             }
 
             self.consul.kv.keys(path, function (err, result) {
@@ -196,7 +198,7 @@ class ConsulClient {
             self.log('watch KeyValue data:', result);
 
             let ret = null;
-            if(result && result.Value) {
+            if (result && result.Value) {
                 ret = result.Value;
             }
 
@@ -205,21 +207,23 @@ class ConsulClient {
 
         watch.on('error', function (err) {
             self.log('watch KeyValue error:', err);
-            if(self.cacheKeyValueWatch[key]) {
+            if (self.cacheKeyValueWatch[key]) {
                 delete self.cacheKeyValueWatch[key];
             }
         });
     }
 
-    getKeyValue(key) {
+    getKeyValue(key, isWatch) {
         let self = this;
         return new Promise(function (resolve, reject) {
-            if (self.isKeyValueWatched(key)) {
-                let data = this.cacheKeyValueWatch[key];
-                reject(data);
-                return;
-            } else {
-                self.addKeyValueWatch(key);
+            if (isWatch === true) {
+                if (self.isKeyValueWatched(key)) {
+                    let data = this.cacheKeyValueWatch[key];
+                    reject(data);
+                    return;
+                } else {
+                    self.addKeyValueWatch(key);
+                }
             }
 
             self.consul.kv.get(key, function (err, result) {
@@ -229,7 +233,7 @@ class ConsulClient {
                 }
 
                 let ret = null;
-                if(result && result.Value) {
+                if (result && result.Value) {
                     ret = result.Value;
                 }
 
