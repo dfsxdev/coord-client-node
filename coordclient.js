@@ -86,24 +86,28 @@ class ConsulClient {
                 }
             }
 
-            self.consul.catalog.service.nodes(serviceName, function (err, result) {
-                if (err) {
-                    self.log('getService error: \'%s\'', err);
-                    reject(err);
-                }
+            if (self.cacheServiceData[serviceName]) {
+                resolve(self.cacheServiceData[serviceName]);
+            } else {
+                self.consul.catalog.service.nodes(serviceName, function (err, result) {
+                    if (err) {
+                        self.log('getService error: \'%s\'', err);
+                        reject(err);
+                    }
 
-                let ret = null;
-                if (result.length > 0) {
-                    ret = {
-                        name: result[0].ServiceName,
-                        host: result[0].Address,
-                        port: result[0].ServicePort
-                    };
-                }
+                    let ret = null;
+                    if (result.length > 0) {
+                        ret = {
+                            name: result[0].ServiceName,
+                            host: result[0].Address,
+                            port: result[0].ServicePort
+                        };
+                    }
 
-                self.cacheServiceData[serviceName] = ret;
-                resolve(ret);
-            });
+                    self.cacheServiceData[serviceName] = ret;
+                    resolve(ret);
+                });
+            }
         });
     }
 
@@ -153,16 +157,20 @@ class ConsulClient {
                 }
             }
 
-            self.consul.kv.keys(path, function (err, result) {
-                if (err) {
-                    self.log('getKey error: \'%s\'', err);
-                    reject(err);
-                }
+            if (self.cacheKeyData[path]) {
+                resolve(self.cacheKeyData[path]);
+            } else {
+                self.consul.kv.keys(path, function (err, result) {
+                    if (err) {
+                        self.log('getKey error: \'%s\'', err);
+                        reject(err);
+                    }
 
-                let ret = result;
-                self.cacheKeyData[path] = ret;
-                resolve(ret);
-            });
+                    let ret = result;
+                    self.cacheKeyData[path] = ret;
+                    resolve(ret);
+                });
+            }
         });
     }
 
@@ -228,20 +236,24 @@ class ConsulClient {
                 }
             }
 
-            self.consul.kv.get(key, function (err, result) {
-                if (err) {
-                    self.log('getKeyValue error: \'%s\'', err);
-                    reject(err);
-                }
+            if (self.cacheKeyValueData[key]) {
+                resolve(self.cacheKeyValueData[key]);
+            } else {
+                self.consul.kv.get(key, function (err, result) {
+                    if (err) {
+                        self.log('getKeyValue error: \'%s\'', err);
+                        reject(err);
+                    }
 
-                let ret = null;
-                if (result && result.Value) {
-                    ret = result.Value;
-                }
+                    let ret = null;
+                    if (result && result.Value) {
+                        ret = result.Value;
+                    }
 
-                self.cacheKeyValueData[key] = ret;
-                resolve(ret);
-            });
+                    self.cacheKeyValueData[key] = ret;
+                    resolve(ret);
+                });
+            }
         });
     }
 }

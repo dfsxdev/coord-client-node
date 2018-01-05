@@ -14,29 +14,38 @@ function test() {
     coordclient.getKeys('web/').then(
         function (result) {
             console.log('get key OK, result: ' + JSON.stringify(result));
+
+            coordclient.getKeys('web/').then(
+                function (result) {
+                    console.log('get key OK, result: ' + JSON.stringify(result));
+                },
+                function (error) {
+                    // console.log('get key error:', error);
+                }
+            );
         },
         function (error) {
             // console.log('get key error:', error);
         }
     );
 
-    coordclient.putKeyValue('web/main.test', 'testvalue').then(
-        function (result) {
-            console.log('putKeyValue OK, result: ' + JSON.stringify(result));
-        },
-        function (error) {
-            // console.log('get KeyValue error:', error);
-        }
-    );
-
-    coordclient.getKeyValue('web/main.test').then(
-        function (result) {
-            console.log('get KeyValue OK, result: ' + JSON.stringify(result));
-        },
-        function (error) {
-            // console.log('get KeyValue error:', error);
-        }
-    );
+    // coordclient.putKeyValue('web/main.test', 'testvalue').then(
+    //     function (result) {
+    //         console.log('putKeyValue OK, result: ' + JSON.stringify(result));
+    //     },
+    //     function (error) {
+    //         // console.log('get KeyValue error:', error);
+    //     }
+    // );
+    //
+    // coordclient.getKeyValue('web/main.test').then(
+    //     function (result) {
+    //         console.log('get KeyValue OK, result: ' + JSON.stringify(result));
+    //     },
+    //     function (error) {
+    //         // console.log('get KeyValue error:', error);
+    //     }
+    // );
 }
 
 test();
