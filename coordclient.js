@@ -57,7 +57,7 @@ class ConsulClient {
             if (result.length > 0) {
                 ret = {
                     name: result[0].ServiceName,
-                    host: result[0].Address,
+                    host: result[0].ServiceAddress || result[0].Address,
                     port: result[0].ServicePort
                 };
             }
@@ -99,7 +99,7 @@ class ConsulClient {
                     if (result.length > 0) {
                         ret = {
                             name: result[0].ServiceName,
-                            host: result[0].Address,
+                            host: result[0].ServiceAddress || result[0].Address,
                             port: result[0].ServicePort
                         };
                     }
