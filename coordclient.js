@@ -73,9 +73,12 @@ class ConsulClient {
         });
     }
 
-    getService(serviceName, isWatch) {
+    getService(serviceName, isWatch = false, isCache = true) {
         let self = this;
         return new Promise(function (resolve, reject) {
+            if (isWatch === true) {
+                isCache = isWatch;
+            }
             if (isWatch === true) {
                 if (self.isServiceWatched(serviceName)) {
                     let data = this.cacheServiceWatch[serviceName];
@@ -86,7 +89,7 @@ class ConsulClient {
                 }
             }
 
-            if (self.cacheServiceData[serviceName]) {
+            if (isCache === true && self.cacheServiceData[serviceName]) {
                 resolve(self.cacheServiceData[serviceName]);
             } else {
                 self.consul.catalog.service.nodes(serviceName, function (err, result) {
@@ -104,7 +107,9 @@ class ConsulClient {
                         };
                     }
 
-                    self.cacheServiceData[serviceName] = ret;
+                    if (isCache === true) {
+                        self.cacheServiceData[serviceName] = ret;
+                    }
                     resolve(ret);
                 });
             }
@@ -144,9 +149,12 @@ class ConsulClient {
         });
     }
 
-    getKeys(path, isWatch) {
+    getKeys(path, isWatch = false, isCache = true) {
         let self = this;
         return new Promise(function (resolve, reject) {
+            if (isWatch === true) {
+                isCache = isWatch;
+            }
             if (isWatch === true) {
                 if (self.isKeyWatched(path)) {
                     let data = this.cacheKeyWatch[path];
@@ -157,7 +165,7 @@ class ConsulClient {
                 }
             }
 
-            if (self.cacheKeyData[path]) {
+            if (isCache === true && self.cacheKeyData[path]) {
                 resolve(self.cacheKeyData[path]);
             } else {
                 self.consul.kv.keys(path, function (err, result) {
@@ -167,7 +175,9 @@ class ConsulClient {
                     }
 
                     let ret = result;
-                    self.cacheKeyData[path] = ret;
+                    if (isCache === true) {
+                        self.cacheKeyData[path] = ret;
+                    }
                     resolve(ret);
                 });
             }
@@ -223,9 +233,12 @@ class ConsulClient {
         });
     }
 
-    getKeyValue(key, isWatch) {
+    getKeyValue(key, isWatch = false, isCache = true) {
         let self = this;
         return new Promise(function (resolve, reject) {
+            if (isWatch === true) {
+                isCache = isWatch;
+            }
             if (isWatch === true) {
                 if (self.isKeyValueWatched(key)) {
                     let data = this.cacheKeyValueWatch[key];
@@ -236,7 +249,7 @@ class ConsulClient {
                 }
             }
 
-            if (self.cacheKeyValueData[key]) {
+            if (isCache === true && self.cacheKeyValueData[key]) {
                 resolve(self.cacheKeyValueData[key]);
             } else {
                 self.consul.kv.get(key, function (err, result) {
@@ -250,7 +263,9 @@ class ConsulClient {
                         ret = result.Value;
                     }
 
-                    self.cacheKeyValueData[key] = ret;
+                    if (isCache === true) {
+                        self.cacheKeyValueData[key] = ret;
+                    }
                     resolve(ret);
                 });
             }
