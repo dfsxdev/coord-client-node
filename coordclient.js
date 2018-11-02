@@ -96,6 +96,7 @@ class ConsulClient {
                     if (err) {
                         self.log('getService error: \'%s\'', err);
                         reject(err);
+                        return;
                     }
 
                     let ret = null;
@@ -172,6 +173,7 @@ class ConsulClient {
                     if (err) {
                         self.log('getKey error: \'%s\'', err);
                         reject(err);
+                        return;
                     }
 
                     let ret = result;
@@ -191,6 +193,7 @@ class ConsulClient {
                 if (err) {
                     self.log('setKeyValue error: \'%s\'', err);
                     reject(err);
+                    return;
                 }
                 resolve(value);
             });
@@ -256,6 +259,7 @@ class ConsulClient {
                     if (err) {
                         self.log('getKeyValue error: \'%s\'', err);
                         reject(err);
+                        return;
                     }
 
                     let ret = null;
