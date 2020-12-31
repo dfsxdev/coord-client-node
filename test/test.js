@@ -2,7 +2,7 @@ var coordclient = require('../coordclient');
 coordclient.init('192.168.6.30:8500');
 
 function test() {
-    coordclient.getService('activemq').then(
+    coordclient.getService('proxy-api').then(
         function (result) {
             console.log('get Service OK, result: ' + JSON.stringify(result));
         },

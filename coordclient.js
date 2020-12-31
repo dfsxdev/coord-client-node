@@ -92,7 +92,10 @@ class ConsulClient {
             if (isCache === true && self.cacheServiceData[serviceName]) {
                 resolve(self.cacheServiceData[serviceName]);
             } else {
-                self.consul.catalog.service.nodes(serviceName, function (err, result) {
+                self.consul.health.service({
+                    'service': serviceName,
+                    'passing': true
+                }, function (err, result) {
                     if (err) {
                         self.log('getService error: \'%s\'', err);
                         reject(err);
@@ -102,9 +105,9 @@ class ConsulClient {
                     let ret = null;
                     if (result.length > 0) {
                         ret = {
-                            name: result[0].ServiceName,
-                            host: result[0].ServiceAddress || result[0].Address,
-                            port: result[0].ServicePort
+                            name: result[0].Service.Service,
+                            host: result[0].Service.Address.length > 0 ? result[0].Service.Address : result[0].Node.Address,
+                            port: result[0].Service.Port
                         };
                     }
 
