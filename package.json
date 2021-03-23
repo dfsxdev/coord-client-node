@@ -2,6 +2,7 @@
   "name": "coordclient",
   "version": "1.0.0",
   "description": "config cache using coord",
+  "repository": "https://github.com/dfsxdev/coord-client-node.git",
   "main": "coordclient.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
