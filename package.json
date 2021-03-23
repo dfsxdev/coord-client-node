@@ -1,6 +1,6 @@
 {
   "name": "coordclient",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "config cache using coord",
   "repository": "https://github.com/dfsxdev/coord-client-node.git",
   "main": "coordclient.js",
