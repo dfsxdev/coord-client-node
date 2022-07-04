@@ -1,5 +1,6 @@
 var coordclient = require('../coordclient');
-coordclient.init('192.168.6.30:8500');
+// coordclient.init('192.168.8.30:8500');
+coordclient.init('[2001:2001:2001:2001:2001::11]:8500');
 
 function test() {
     coordclient.getService('proxy-api').then(

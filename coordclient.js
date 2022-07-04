@@ -1,5 +1,3 @@
-var urlParser = require('url');
-
 class ConsulClient {
     constructor() {
         this.cacheServiceData = {};
@@ -13,7 +11,7 @@ class ConsulClient {
     }
 
     init(address) {
-        let url = urlParser.parse('http://' + address);
+        let url = new URL('http://' + address);
         var host = url.hostname;
         var port = url.port;
         this.consul = require('consul')({
