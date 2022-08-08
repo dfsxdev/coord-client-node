@@ -14,9 +14,20 @@ class ConsulClient {
         let url = new URL('http://' + address);
         var host = url.hostname;
         var port = url.port;
+
+        let defaults = {};
+        if (process.env.CONSUL_TOKEN) {
+            defaults = {
+                token: process.env.CONSUL_TOKEN
+            }
+
+            // console.log('CONSUL_TOKEN=', process.env.CONSUL_TOKEN);
+        }
+
         this.consul = require('consul')({
             host: host,
-            port: port
+            port: port,
+            defaults: defaults
         });
     }
 
@@ -95,7 +106,7 @@ class ConsulClient {
                     'passing': true
                 }, function (err, result) {
                     if (err) {
-                        self.log('getService error: \'%s\'', err);
+                        self.log('getService error:', err);
                         reject(err);
                         return;
                     }
@@ -172,7 +183,7 @@ class ConsulClient {
             } else {
                 self.consul.kv.keys(path, function (err, result) {
                     if (err) {
-                        self.log('getKey error: \'%s\'', err);
+                        self.log('getKey error:', err);
                         reject(err);
                         return;
                     }
@@ -192,7 +203,7 @@ class ConsulClient {
         return new Promise(function (resolve, reject) {
             self.consul.kv.set(key, value, function (err, result) {
                 if (err) {
-                    self.log('setKeyValue error: \'%s\'', err);
+                    self.log('setKeyValue error:', err);
                     reject(err);
                     return;
                 }
@@ -258,7 +269,7 @@ class ConsulClient {
             } else {
                 self.consul.kv.get(key, function (err, result) {
                     if (err) {
-                        self.log('getKeyValue error: \'%s\'', err);
+                        self.log('getKeyValue error:', err);
                         reject(err);
                         return;
                     }
